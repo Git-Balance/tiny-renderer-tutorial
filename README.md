@@ -7,3 +7,12 @@ I found a cool project on GitHub called [Tiny Renderer](https://github.com/ssloy
 ## Progress
 
 I'm going to periodically update this whenever I feel like it. I'm not going to worry about keeping this up to date, since the purpose of this project is to learn more about C++ and OpenGL, not write a blog.
+
+### 11/02 - 11/04
+
+Finished lesson 1
+
+While I did copy most of the code from the guy's "snapshots," I did write the code for making the lines all by myself
+
+![image](display/lesson1_wireframe.tga)
+
