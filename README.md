@@ -16,3 +16,11 @@ While I did copy most of the code from the guy's "snapshots," I did write the co
 
 ![image](display/lesson1_wireframe.tga)
 
+## 11/05 - 11/06
+
+Tried to do lesson 2. It did not go well
+First, I discovered that my line code had a lot of problems, so I had to scratch that and import the guy's line code
+Then, I had a lot of problems regarding the triangle
+Long story short, I'm taking a break from this project
+
+![image](lesson2_failedtriangles.tga)
