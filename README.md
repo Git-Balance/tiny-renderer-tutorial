@@ -24,3 +24,10 @@ Then, I had a lot of problems regarding the triangle
 Long story short, I'm taking a break from this project
 
 ![image](lesson2_failedtriangles.tga)
+
+## 11/07
+
+I'm not taking a break. I WILL NOT LET THE TRIANGLES BEAT ME!
+Current plan:
+- Figure out how other rendering libraries like [this one](https://www.rose-hulman.edu/class/csse/resources/Python/ZelleGraphics.html)
+- Try to figure a different way of making triangles (the one I tried before was garbage)
