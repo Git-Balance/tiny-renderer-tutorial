@@ -31,3 +31,6 @@ I'm not taking a break. I WILL NOT LET THE TRIANGLES BEAT ME!
 Current plan:
 - Figure out how other rendering libraries like [this one](https://www.rose-hulman.edu/class/csse/resources/Python/ZelleGraphics.html)
 - Try to figure a different way of making triangles (the one I tried before was garbage)
+
+EDIT: Turns out, that example graphics library used another graphics library called [tkinter](https://realpython.com/python-gui-tkinter/)
+      If I can find the source code of that, that would work better
