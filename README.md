@@ -34,3 +34,18 @@ Current plan:
 
 EDIT: Turns out, that example graphics library used another graphics library called [tkinter](https://realpython.com/python-gui-tkinter/)
       If I can find the source code of that, that would work better
+
+## 11/30
+
+I had to take a break
+Long story short, a friend recommended I learn linear algebra, since vectors are a big part of how renderers work
+I'm also thinging of changing my primary language to Python, as I already know that
+I downloaded some libraries to test out, and the next update will detail the results of those experiments
+
+Here are some resources I found
+- [pyTGA](https://github.com/MircoT/pyTGA)
+- [Some stuff on how rasterization works](https://www.scratchapixel.com/lessons/3d-basic-rendering/rasterization-practical-implementation/projection-stage.html)
+- [Khan Academy is amazing](https://www.khanacademy.org/math/linear-algebra/vectors-and-spaces/vectors/v/linear-algebra-parametric-representations-of-lines)
+
+EDIT: I'm going to have to figure out how to install pyTGA safely if I am going to use it. I also need to evaluate my options carefully. I do NOT want to discover halfway though the tutorial that my core graphics library is flawed
+
