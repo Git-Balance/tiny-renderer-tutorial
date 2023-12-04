@@ -49,3 +49,6 @@ Here are some resources I found
 
 EDIT: I'm going to have to figure out how to install pyTGA safely if I am going to use it. I also need to evaluate my options carefully. I do NOT want to discover halfway though the tutorial that my core graphics library is flawed
 
+## 12/04
+
+Started testing how various parts of this project works with python and matplotlib, cus it is easier
