@@ -52,3 +52,10 @@ EDIT: I'm going to have to figure out how to install pyTGA safely if I am going 
 ## 12/04
 
 Started testing how various parts of this project works with python and matplotlib, cus it is easier
+
+## 12/12
+
+Taking a different direction from what I planned
+Long story short, I am completely rewriting the code for myline, so that I understand how it works
+I should have tried to make a line function on my own from the start
+

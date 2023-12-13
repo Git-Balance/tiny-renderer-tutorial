@@ -15,8 +15,8 @@ const TGAColor blue  = TGAColor(0,   0,   255, 255);
 
 Model *model = NULL;
 
-const int width  = 800;
-const int height = 800;
+const int width  = 50;
+const int height = 50;
 
 void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
     bool steep = false; 
@@ -48,39 +48,36 @@ void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) {
     } 
 }
 
-void myline(int x0, int y0, int x1, int y1, 
+void myline(int xPoint1, int yPoint1, int xPoint2, int yPoint2, 
             TGAImage &image, TGAColor color) {
     /*
-     * This code doesn't entirely work
-     * Specifically, I didn't try to implement the stuff regarding distance and error in my implementation
-     * So yeah, I had to get use the existing code
+     * My line, with code I made myself
      */
     
-    bool steep = false;
-    if (abs(x0-x1)<abs(y0-y1)) {
-        steep = true;
+    /*
+     * for (xProgress = xPoint1) (xProgress <= xPoint2) (xProgress++)
+     *   // yProgress will have to be relative to xProgress
+     *   // Maybe make yProgress a percentage of yPoint2
+     *   // No, make yProgress = yPoint2 - a percentage of yPoint1
+     *   // Could adding work?
+     *   // Either way, we need some way of getting a percentage of yPoint1
+     *   progressUp = yPoint1 / yPoint2
+     *   yProgress = yPoint1 + ((yPoint2 - yPoint1) * progressUp)
+     */
+
+    for (int xProgress = xPoint1; xProgress <= xPoint2; xProgress++) {
+        // TODO: This is where the main problems are currently, progressUp
+        // I can't figure out how to get a percentage of height
+        float progressUp = (float) yPoint2 - yPoint1;
+        cout << progressUp << endl;;
+        // REMEMBER: yPoint1 should always be less than yPoint2
+        int yProgress = yPoint1 + (float)((yPoint2 - yPoint1) * progressUp);
+
+        image.set(xProgress, yProgress, color);
     }
-    
-    if ((steep && y0 > y1) || (!steep && x0 > x1)) { // I understand why this works
-        swap(x0, x1);
-        swap(y0, y1);
-    }
-    
-    if (!steep) {
-        for (float x=x0; x<=x1; x++) {
-            float t = (x-x0)/(float)(x1-x0); // This is the relative position of the current x
-            int y = y0*(1.-t) + y1*t;
-            image.set(x, y, color);
-        }
-    }
-    else {
-        for (float y=y0; y<=y1; y++) {
-        float t = (y-y0)/(float)(y1-y0);
-            int x = x0*(1.-t) + x1*t;
-            image.set(x, y, color);
-        }
-    }
-    
+
+    image.set(xPoint1, yPoint1, red);
+    image.set(xPoint2, yPoint2, red);
 }
 
 void triangle(Vec2i t0, Vec2i t1, Vec2i t2, 
@@ -216,9 +213,14 @@ int main(int argc, char** argv) {
     Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)};
     Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)};
 
+    /*
     triangle(t0[0], t0[1], t0[2], image, red);
     triangle(t1[0], t1[1], t1[2], image, white);
     triangle(t2[0], t2[1], t2[2], image, green);
+    */
+
+    myline(5, 5, 40, 40, image, white);
+    myline(5, 5, 40, 20, image, green);
 
     image.flip_vertically();
     image.write_tga_file("output.tga");

@@ -21,4 +21,5 @@ print(xvalues)
 print(yvalues)
 
 plt.plot(xvalues, yvalues, 'o')
+plt.plot(xvalues, yvalues, 'x')
 plt.show()
