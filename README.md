@@ -16,7 +16,7 @@ While I did copy most of the code from the guy's "snapshots," I did write the co
 
 ![image](display/lesson1_wireframe.tga)
 
-## 11/05 - 11/06
+### 11/05 - 11/06
 
 Tried to do lesson 2. It did not go well
 First, I discovered that my line code had a lot of problems, so I had to scratch that and import the guy's line code
@@ -25,7 +25,7 @@ Long story short, I'm taking a break from this project
 
 ![image](lesson2_failedtriangles.tga)
 
-## 11/07
+### 11/07
 
 I'm not taking a break. I WILL NOT LET THE TRIANGLES BEAT ME!
 Current plan:
@@ -35,7 +35,7 @@ Current plan:
 EDIT: Turns out, that example graphics library used another graphics library called [tkinter](https://realpython.com/python-gui-tkinter/)
       If I can find the source code of that, that would work better
 
-## 11/30
+### 11/30
 
 I had to take a break
 Long story short, a friend recommended I learn linear algebra, since vectors are a big part of how renderers work
@@ -49,11 +49,11 @@ Here are some resources I found
 
 EDIT: I'm going to have to figure out how to install pyTGA safely if I am going to use it. I also need to evaluate my options carefully. I do NOT want to discover halfway though the tutorial that my core graphics library is flawed
 
-## 12/04
+### 12/04
 
 Started testing how various parts of this project works with python and matplotlib, cus it is easier
 
-## 12/12
+### 12/12
 
 Taking a different direction from what I planned
 Long story short, I am completely rewriting the code for myline, so that I understand how it works
