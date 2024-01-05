@@ -23,7 +23,7 @@ First, I discovered that my line code had a lot of problems, so I had to scratch
 Then, I had a lot of problems regarding the triangle
 Long story short, I'm taking a break from this project
 
-![image](lesson2_failedtriangles.tga)
+![image](display/lesson2_failedtriangles.tga)
 
 ### 11/07
 
@@ -59,3 +59,15 @@ Taking a different direction from what I planned
 Long story short, I am completely rewriting the code for myline, so that I understand how it works
 I should have tried to make a line function on my own from the start
 
+### 01/05
+
+I finally got the myline code working
+Currently, I am only on [step 1](https://github.com/ssloy/tinyrenderer/wiki/Lesson-1:-Bresenham%E2%80%99s-Line-Drawing-Algorithm) of the tutorial
+If I looked closely, I could have seen that the algorithm that was used by the teacher had a name
+Oh well, at least I can say that I made my own line algorithm
+My line drawing algorithm uses y=mx+b
+It finds all the values in that equation, then only draws the parts of the equation that is needed
+I am proud of my algorithm
+HOWEVER, I only have the basic algorithm of step 1.1, I still need to make the rest of the algorithm so it can handle steep lines and stuff like that
+
+![image](display/lesson1_successfulstart.tga)

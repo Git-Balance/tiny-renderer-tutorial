@@ -12,6 +12,7 @@ const TGAColor white = TGAColor(255, 255, 255, 255);
 const TGAColor red   = TGAColor(255, 0,   0,   255);
 const TGAColor green = TGAColor(0,   255, 0,   255);
 const TGAColor blue  = TGAColor(0,   0,   255, 255);
+const TGAColor pink  = TGAColor(255, 0,   255, 255);
 
 Model *model = NULL;
 
@@ -65,13 +66,28 @@ void myline(int xPoint1, int yPoint1, int xPoint2, int yPoint2,
      *   yProgress = yPoint1 + ((yPoint2 - yPoint1) * progressUp)
      */
 
+    float lineSlope = (float)(yPoint2 - yPoint1)/(float)(xPoint2 - xPoint1);
+    cout << lineSlope << endl;
+    // This is the b in y=mx+b
+    float yIntercept = yPoint1 - (lineSlope * xPoint1);
+    cout << yIntercept << endl;
+
     for (int xProgress = xPoint1; xProgress <= xPoint2; xProgress++) {
         // TODO: This is where the main problems are currently, progressUp
         // I can't figure out how to get a percentage of height
-        float progressUp = (float) yPoint2 - yPoint1;
-        cout << progressUp << endl;;
+
+        /*
+         * Current Main problems
+         * - [X] Figure out how to make the line go up properly
+         *       TLDR, made equation y=mx+b in yProgress
+         * - [X] Figure out how to get the b part of y=mx+b
+         *       Adding yPoint1 doesn't work, it adds to much
+         *       The yProgress part of the code DOES work
+        */
+
         // REMEMBER: yPoint1 should always be less than yPoint2
-        int yProgress = yPoint1 + (float)((yPoint2 - yPoint1) * progressUp);
+        int yProgress = (float)(xProgress * lineSlope) + yIntercept;
+        cout << yProgress << endl;;
 
         image.set(xProgress, yProgress, color);
     }
@@ -220,7 +236,13 @@ int main(int argc, char** argv) {
     */
 
     myline(5, 5, 40, 40, image, white);
+    cout << "Start green" << endl;
     myline(5, 5, 40, 20, image, green);
+    cout << "End green" << endl;
+    myline(0, 10, 20, 20, image, blue);
+    myline(40, 40, 5, 5, image, white);
+    myline(40, 20, 5, 5, image, green);
+    myline(5, 10, 10, 20, image, pink);
 
     image.flip_vertically();
     image.write_tga_file("output.tga");
