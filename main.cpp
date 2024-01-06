@@ -19,88 +19,26 @@ Model *model = NULL;
 const int width  = 750;
 const int height = 750;
 
-void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
-    bool steep = false; 
-    if (std::abs(x0-x1)<std::abs(y0-y1)) { 
-        std::swap(x0, y0); 
-        std::swap(x1, y1); 
-        steep = true; 
-    } 
-    if (x0>x1) { 
-        std::swap(x0, x1); 
-        std::swap(y0, y1); 
-    } 
-    int dx = x1-x0; 
-    int dy = y1-y0; 
-    int derror2 = std::abs(dy)*2; 
-    int error2 = 0; 
-    int y = y0; 
-    for (int x=x0; x<=x1; x++) { 
-        if (steep) { 
-            image.set(y, x, color); 
-        } else { 
-            image.set(x, y, color); 
-        } 
-        error2 += derror2; 
-        if (error2 > dx) { 
-            y += (y1>y0?1:-1); 
-            error2 -= dx*2; 
-        } 
-    } 
-}
-
-void myline(int xPoint1, int yPoint1, int xPoint2, int yPoint2, 
+void line(int xPoint1, int yPoint1, int xPoint2, int yPoint2, 
             TGAImage &image, TGAColor color) {
-    /*
-     * My line, with code I made myself
-     */
-    
-    /*
-     * for (xProgress = xPoint1) (xProgress <= xPoint2) (xProgress++)
-     *   // yProgress will have to be relative to xProgress
-     *   // Maybe make yProgress a percentage of yPoint2
-     *   // No, make yProgress = yPoint2 - a percentage of yPoint1
-     *   // Could adding work?
-     *   // Either way, we need some way of getting a percentage of yPoint1
-     *   progressUp = yPoint1 / yPoint2
-     *   yProgress = yPoint1 + ((yPoint2 - yPoint1) * progressUp)
-     */
-
-
+    // Had to move the steep code above the x1 > x2 code to fix a bug
+    // Also, using lineSlope to figure out if a line is steep or not was unrealiable
+    // The version done in the official code was more realiable (comparing absolute values)
+    bool steep = false;
+    if (abs(xPoint1 - xPoint2) < abs(yPoint1 - yPoint2)) {
+        swap(xPoint1, yPoint1);
+        swap(xPoint2, yPoint2);
+        steep = true;
+    }
     if (xPoint1 > xPoint2) {
         swap(xPoint1, xPoint2);
         swap(yPoint1, yPoint2);
     }
     float lineSlope = (float)(yPoint2 - yPoint1)/(float)(xPoint2 - xPoint1);
-    cout << lineSlope << endl;
-    bool steep = false;
-    if (lineSlope > 1.0) {
-        swap(xPoint1, yPoint1);
-        swap(xPoint2, yPoint2);
-        lineSlope = (float)(yPoint2 - yPoint1)/(float)(xPoint2 - xPoint1);
-        steep = true;
-    }
-    // This is the b in y=mx+b
     float yIntercept = yPoint1 - (lineSlope * xPoint1);
-    cout << yIntercept << endl;
 
     for (int xProgress = xPoint1; xProgress <= xPoint2; xProgress++) {
-        // TODO: This is where the main problems are currently, progressUp
-        // I can't figure out how to get a percentage of height
-
-        /*
-         * Current Main problems
-         * - [X] Figure out how to make the line go up properly
-         *       TLDR, made equation y=mx+b in yProgress
-         * - [X] Figure out how to get the b part of y=mx+b
-         *       Adding yPoint1 doesn't work, it adds to much
-         *       The yProgress part of the code DOES work
-        */
-
-        // REMEMBER: yPoint1 should always be less than yPoint2
         int yProgress = (float)(xProgress * lineSlope) + yIntercept;
-        cout << yProgress << endl;;
-
         if (!steep) {
             image.set(xProgress, yProgress, color);
         }
@@ -108,16 +46,6 @@ void myline(int xPoint1, int yPoint1, int xPoint2, int yPoint2,
             image.set(yProgress, xProgress, color);
         }
     }
-    /*
-    if (!steep) {
-        image.set(xPoint1, yPoint1, red);
-        image.set(xPoint2, yPoint2, red);
-    }
-    else {
-        image.set(yPoint1, xPoint1, red);
-        image.set(yPoint2, xPoint2, red);
-    }
-    */
 }
 
 void triangle(Vec2i t0, Vec2i t1, Vec2i t2, 
@@ -236,44 +164,52 @@ int main(int argc, char** argv) {
     TGAImage image(width, height, TGAImage::RGB);
     // I just copied this code
     // I can rewrite this later myself
-    /*
-    for (int i=0; i < model->nfaces(); i++) {
-        std::vector<int> face = model->face(i);
-        for (int j=0; j<3; j++) {
-            Vec3f v0 = model->vert(face[j]);
-            Vec3f v1 = model->vert(face[(j+1)%3]);
-            int x0 = (v0.x+1.)*width/2.;
-            int y0 = (v0.y+1.)*height/2.;
-            int x1 = (v1.x+1.)*width/2.;
-            int y1 = (v1.y+1.)*height/2.;
-            line(x0, y0, x1, y1, image, white);
+    // Also, the if (bool) parts of code is to make debugging easier
+    if (true) {
+        for (int i=0; i < model->nfaces(); i++) {
+            std::vector<int> face = model->face(i);
+            for (int j=0; j<3; j++) {
+                Vec3f v0 = model->vert(face[j]);
+                Vec3f v1 = model->vert(face[(j+1)%3]);
+                int x0 = (v0.x+1.)*width/2.;
+                int y0 = (v0.y+1.)*height/2.;
+                int x1 = (v1.x+1.)*width/2.;
+                int y1 = (v1.y+1.)*height/2.;
+                line(x0, y0, x1, y1, image, white);
+            }
         }
     }
-    */
 
+    /*
     Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)};
     Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)};
     Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)};
 
-    /*
     triangle(t0[0], t0[1], t0[2], image, red);
     triangle(t1[0], t1[1], t1[2], image, white);
     triangle(t2[0], t2[1], t2[2], image, green);
     */
 
-    myline(5, 5, 40, 40, image, white);
-    cout << "Start green" << endl;
-    myline(5, 5, 40, 20, image, green);
-    cout << "End green" << endl;
-    myline(0, 10, 20, 20, image, blue);
-    myline(40, 40, 5, 5, image, white);
-    myline(40, 20, 5, 5, image, green);
-    myline(5, 10, 10, 20, image, pink);
-    myline(20, 10, 10, 20, image, pink);
-    myline(20, 10, 30, 40, image, blue);
+    if (false) {
+        line(5, 5, 40, 40, image, white);
+        line(5, 5, 40, 20, image, green);
+        line(0, 10, 20, 20, image, blue);
+        line(40, 40, 5, 5, image, white);
+        line(40, 20, 5, 5, image, green);
+        line(5, 10, 10, 20, image, pink);
+        line(20, 10, 10, 20, image, pink);
+        line(20, 10, 30, 40, image, blue);
 
-    myline(50, 700, 700, 50, image, white);
-    myline(50, 50, 700, 700, image, white);
+        line(50, 700, 700, 50, image, white);
+        line(50, 50, 700, 700, image, white);
+
+        line(100, 50, 100, 700, image, white);
+        line(200, 50, 210, 700, image, white);
+        line(300, 50, 290, 700, image, white);
+        line(400, 700, 400, 50, image, white);
+        line(50, 325, 700, 325, image, white);
+        line(700, 425, 50, 425, image, white);
+    }
 
     image.flip_vertically();
     image.write_tga_file("output.tga");

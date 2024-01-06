@@ -83,3 +83,14 @@ Step 1.3:
 The code needs to be cleaned up a lot, but otherwise I think it is good
 
 ![image](display/lesson1_step2and3.tga)
+
+### 01/06
+
+The code was cleaned up a little 
+- Comments were removed
+- A bug was patched out regarding steep left-to-right lines
+- The original line code was removed (myline is now just called line)
+Also, a wireframe version of the face was made with the new line
+Lesson 1 is done
+
+![image](display/lesson1_newwireframe.tga)
