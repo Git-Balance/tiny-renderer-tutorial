@@ -71,3 +71,15 @@ I am proud of my algorithm
 HOWEVER, I only have the basic algorithm of step 1.1, I still need to make the rest of the algorithm so it can handle steep lines and stuff like that
 
 ![image](display/lesson1_successfulstart.tga)
+
+### 01/05 - continued
+
+Long story short, step 1.2 and 1.3 were completed
+Step 1.2:
+    Turns out, I already completed this step earlier
+    This handles every "step" (every time a pixel is created), and my algorithm already handles this
+Step 1.3:
+    This step covers handling steep lines and right-to-left lines
+The code needs to be cleaned up a lot, but otherwise I think it is good
+
+![image](display/lesson1_step2and3.tga)

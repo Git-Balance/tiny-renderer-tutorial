@@ -16,8 +16,8 @@ const TGAColor pink  = TGAColor(255, 0,   255, 255);
 
 Model *model = NULL;
 
-const int width  = 50;
-const int height = 50;
+const int width  = 750;
+const int height = 750;
 
 void line(int x0, int y0, int x1, int y1, TGAImage &image, TGAColor color) { 
     bool steep = false; 
@@ -66,8 +66,20 @@ void myline(int xPoint1, int yPoint1, int xPoint2, int yPoint2,
      *   yProgress = yPoint1 + ((yPoint2 - yPoint1) * progressUp)
      */
 
+
+    if (xPoint1 > xPoint2) {
+        swap(xPoint1, xPoint2);
+        swap(yPoint1, yPoint2);
+    }
     float lineSlope = (float)(yPoint2 - yPoint1)/(float)(xPoint2 - xPoint1);
     cout << lineSlope << endl;
+    bool steep = false;
+    if (lineSlope > 1.0) {
+        swap(xPoint1, yPoint1);
+        swap(xPoint2, yPoint2);
+        lineSlope = (float)(yPoint2 - yPoint1)/(float)(xPoint2 - xPoint1);
+        steep = true;
+    }
     // This is the b in y=mx+b
     float yIntercept = yPoint1 - (lineSlope * xPoint1);
     cout << yIntercept << endl;
@@ -89,11 +101,23 @@ void myline(int xPoint1, int yPoint1, int xPoint2, int yPoint2,
         int yProgress = (float)(xProgress * lineSlope) + yIntercept;
         cout << yProgress << endl;;
 
-        image.set(xProgress, yProgress, color);
+        if (!steep) {
+            image.set(xProgress, yProgress, color);
+        }
+        else {
+            image.set(yProgress, xProgress, color);
+        }
     }
-
-    image.set(xPoint1, yPoint1, red);
-    image.set(xPoint2, yPoint2, red);
+    /*
+    if (!steep) {
+        image.set(xPoint1, yPoint1, red);
+        image.set(xPoint2, yPoint2, red);
+    }
+    else {
+        image.set(yPoint1, xPoint1, red);
+        image.set(yPoint2, xPoint2, red);
+    }
+    */
 }
 
 void triangle(Vec2i t0, Vec2i t1, Vec2i t2, 
@@ -210,6 +234,8 @@ int main(int argc, char** argv) {
     }
 
     TGAImage image(width, height, TGAImage::RGB);
+    // I just copied this code
+    // I can rewrite this later myself
     /*
     for (int i=0; i < model->nfaces(); i++) {
         std::vector<int> face = model->face(i);
@@ -243,6 +269,11 @@ int main(int argc, char** argv) {
     myline(40, 40, 5, 5, image, white);
     myline(40, 20, 5, 5, image, green);
     myline(5, 10, 10, 20, image, pink);
+    myline(20, 10, 10, 20, image, pink);
+    myline(20, 10, 30, 40, image, blue);
+
+    myline(50, 700, 700, 50, image, white);
+    myline(50, 50, 700, 700, image, white);
 
     image.flip_vertically();
     image.write_tga_file("output.tga");
