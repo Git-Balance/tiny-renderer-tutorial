@@ -154,6 +154,13 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2,
 
 }
 
+void mytriangle(Vec2i vector1, Vec2i vector2, Vec2i vector3,
+                TGAImage &image, TGAColor color) {
+    line(vector1.x, vector1.y, vector2.x, vector2.y, image, red);
+    line(vector2.x, vector2.y, vector3.x, vector3.y, image, red);
+    line(vector1.x, vector1.y, vector3.x, vector3.y, image, red);
+}
+
 int main(int argc, char** argv) {
     if (2==argc) {
         model = new Model(argv[1]);
@@ -165,7 +172,7 @@ int main(int argc, char** argv) {
     // I just copied this code
     // I can rewrite this later myself
     // Also, the if (bool) parts of code is to make debugging easier
-    if (true) {
+    if (false) {
         for (int i=0; i < model->nfaces(); i++) {
             std::vector<int> face = model->face(i);
             for (int j=0; j<3; j++) {
@@ -180,15 +187,15 @@ int main(int argc, char** argv) {
         }
     }
 
-    /*
-    Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)};
-    Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)};
-    Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)};
+    if (true) {
+        Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)};
+        Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)};
+        Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)};
 
-    triangle(t0[0], t0[1], t0[2], image, red);
-    triangle(t1[0], t1[1], t1[2], image, white);
-    triangle(t2[0], t2[1], t2[2], image, green);
-    */
+        mytriangle(t0[0], t0[1], t0[2], image, blue);
+        mytriangle(t1[0], t1[1], t1[2], image, white);
+        mytriangle(t2[0], t2[1], t2[2], image, green);
+    }
 
     if (false) {
         line(5, 5, 40, 40, image, white);
