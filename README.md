@@ -94,3 +94,10 @@ Also, a wireframe version of the face was made with the new line
 Lesson 1 is done
 
 ![image](display/lesson1_newwireframe.tga)
+
+### 01/25
+
+Had some IRL stuff that got in the way of this project
+However, I'm on the right track
+I figured out how the basics of how I am going to render a triangle
+I did some tests in Python
