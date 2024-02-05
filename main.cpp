@@ -197,7 +197,7 @@ int main(int argc, char** argv) {
         mytriangle(t2[0], t2[1], t2[2], image, green);
     }
 
-    if (false) {
+    if (true) {
         line(5, 5, 40, 40, image, white);
         line(5, 5, 40, 20, image, green);
         line(0, 10, 20, 20, image, blue);

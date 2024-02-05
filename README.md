@@ -101,3 +101,21 @@ Had some IRL stuff that got in the way of this project
 However, I'm on the right track
 I figured out how the basics of how I am going to render a triangle
 I did some tests in Python
+
+### 02/05
+
+I figured out how to work on this project portably
+Currently, I use CoCalc of I want to work to work on a programming project portablly
+However, CoCalc doesn't allow you to install programs, and it didn't have any preinstalled programs that could view TGA images
+I found a workaround in the form of the AppImage version of ImageMagick
+ImageMagick allows you to convert an image to a different format, and the AppImage version can be ran on CoCalc (after using --appimage-extract)
+TLDR, I can work on this project more consistently
+
+On a side note, I did some testing in python
+Initially, I just wanted to see if a Jupyter Notebook supported TGA images
+Then it spiralled into me trying to recreate the entire renderer so far in Python because I was bored
+It didn't end up working, but it made me think about what I have doon so far
+For example, why does the line need to be drawn left-to-right?
+My line algorith is different than the one in the tutorial, so I should test that, right?
+Additionally, I am thinking about if turning the lines into classes
+I probably won't turn the lines or tiangles or other shapes into classes, but it is still a good idea to think about my code along these lines
