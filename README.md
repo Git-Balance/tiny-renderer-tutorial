@@ -119,3 +119,13 @@ For example, why does the line need to be drawn left-to-right?
 My line algorith is different than the one in the tutorial, so I should test that, right?
 Additionally, I am thinking about if turning the lines into classes
 I probably won't turn the lines or tiangles or other shapes into classes, but it is still a good idea to think about my code along these lines
+
+### 02/06
+
+I am working on the triangle code, and I want to document what I have done so far
+First, the vectors that represent the 3 points of a triangle are sorted from the highest y to lowest y
+Then, the triangle code finds the slope and y intercept of the 3 sides before drawing anything
+This is where I am at currently
+Additionally, I attached a picture to show what I currently have for future reference on what changes
+
+![image](display/lesson2_originalversion.png)

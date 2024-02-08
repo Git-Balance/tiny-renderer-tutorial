@@ -159,6 +159,35 @@ void mytriangle(Vec2i vector1, Vec2i vector2, Vec2i vector3,
     line(vector1.x, vector1.y, vector2.x, vector2.y, image, red);
     line(vector2.x, vector2.y, vector3.x, vector3.y, image, red);
     line(vector1.x, vector1.y, vector3.x, vector3.y, image, red);
+
+    if (vector1.y < vector3.y) swap(vector1, vector3);
+    if (vector1.y < vector2.y) swap(vector1, vector2);
+    if (vector2.y < vector3.y) swap(vector2, vector3);
+    
+    cout << vector1.y << " " << vector2.y << " " << vector3.y << "\n";
+
+    // Line 1 connects point 1 and 2
+    // Line 2 connects point 2 and 3
+    // Line 3 connects point 1 and 3
+    float lineSlope[3];
+    lineSlope[0]  = (float)(vector2.y - vector1.y) / (vector2.x - vector1.x);
+    lineSlope[1]  = (float)(vector3.y - vector2.y) / (vector3.x - vector2.x);
+    lineSlope[2]  = (float)(vector3.y - vector1.y) / (vector3.x - vector1.x);
+    float yIntercept[3];
+    yIntercept[0] = vector1.y - (lineSlope[0] * vector1.x);
+    yIntercept[1] = vector2.y - (lineSlope[1] * vector2.x);
+    yIntercept[2] = vector3.y - (lineSlope[2] * vector3.x);
+
+    cout << lineSlope[0] << " " << lineSlope[1] << " " << lineSlope[2] << "\n";
+    cout << yIntercept[0] << " " << yIntercept[1] << " " << yIntercept[2] << "\n";
+    cout << "\n";
+
+    /*
+    int yProgress = vector1.y;
+    while (yProgress >= vector2.y) {
+        
+    }
+    */
 }
 
 int main(int argc, char** argv) {
@@ -187,7 +216,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (true) {
+    if (false) {
         Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)};
         Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)};
         Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)};
