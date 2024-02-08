@@ -120,7 +120,7 @@ My line algorith is different than the one in the tutorial, so I should test tha
 Additionally, I am thinking about if turning the lines into classes
 I probably won't turn the lines or tiangles or other shapes into classes, but it is still a good idea to think about my code along these lines
 
-### 02/06
+### 02/08
 
 I am working on the triangle code, and I want to document what I have done so far
 First, the vectors that represent the 3 points of a triangle are sorted from the highest y to lowest y
