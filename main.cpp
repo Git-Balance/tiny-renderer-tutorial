@@ -180,13 +180,41 @@ void mytriangle(Vec2i vector1, Vec2i vector2, Vec2i vector3,
 
     cout << lineSlope[0] << " " << lineSlope[1] << " " << lineSlope[2] << "\n";
     cout << yIntercept[0] << " " << yIntercept[1] << " " << yIntercept[2] << "\n";
+
+    int yProgress = vector1.y;
+    while (yProgress >= vector2.y) {
+        int xRangeStart = (yProgress - yIntercept[0]) / lineSlope[0];
+        cout << xRangeStart << " " << yIntercept[0] << " " << lineSlope[0] << "\n";
+        int xRangeEnd   = (yProgress - yIntercept[2]) / lineSlope[2];
+        cout << xRangeEnd << " " << yIntercept[2] << " " << lineSlope[2] << "\n";
+        if (xRangeStart > xRangeEnd) swap(xRangeStart, xRangeEnd);
+        cout << "--------" << "\n";
+
+        for (int xProgress = xRangeStart; xProgress <= xRangeEnd; xProgress++) {
+            image.set(xProgress, yProgress, color);
+        }
+        yProgress = yProgress - 1;
+    }
+    while (yProgress >= vector3.y) {
+        int xRangeStart = (yProgress - yIntercept[1]) / lineSlope[1];
+        cout << xRangeStart << " " << yIntercept[1] << " " << lineSlope[1] << "\n";
+        int xRangeEnd   = (yProgress - yIntercept[2]) / lineSlope[2];
+        cout << xRangeEnd << " " << yIntercept[2] << " " << lineSlope[2] << "\n";
+        if (xRangeStart > xRangeEnd) swap(xRangeStart, xRangeEnd);
+        cout << "--------" << "\n";
+
+        for (int xProgress = xRangeStart; xProgress <= xRangeEnd; xProgress++) {
+            image.set(xProgress, yProgress, color);
+        }
+        yProgress = yProgress - 1;
+    }
+
     cout << "\n";
 
     /*
-    int yProgress = vector1.y;
-    while (yProgress >= vector2.y) {
-        
-    }
+    line(vector1.x, vector1.y, vector2.x, vector2.y, image, red);
+    line(vector2.x, vector2.y, vector3.x, vector3.y, image, red);
+    line(vector1.x, vector1.y, vector3.x, vector3.y, image, red);
     */
 }
 
@@ -216,7 +244,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (false) {
+    if (true) {
         Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)};
         Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)};
         Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)};

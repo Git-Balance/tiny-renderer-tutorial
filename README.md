@@ -129,3 +129,18 @@ This is where I am at currently
 Additionally, I attached a picture to show what I currently have for future reference on what changes
 
 ![image](display/lesson2_originalversion.png)
+
+### 02/11
+
+I got a cool glitch
+I'm don't even know how this went so perfectly wrong
+
+![image](display/lesson2_coolfail.png)
+
+### 02/11 - continued
+
+I almost have the triangle code working
+All I need to do is figure out why the triangle doesn't cover the entire area
+It probably is an off by one error
+
+![image](display/lesson2_almostgood.png)
