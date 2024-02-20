@@ -34,6 +34,7 @@ void line(int xPoint1, int yPoint1, int xPoint2, int yPoint2,
         swap(xPoint1, xPoint2);
         swap(yPoint1, yPoint2);
     }
+    // TODO fix divide by 0 error
     float lineSlope = (float)(yPoint2 - yPoint1)/(float)(xPoint2 - xPoint1);
     float yIntercept = yPoint1 - (lineSlope * xPoint1);
 
@@ -156,9 +157,9 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2,
 
 void mytriangle(Vec2i vector1, Vec2i vector2, Vec2i vector3,
                 TGAImage &image, TGAColor color) {
-    line(vector1.x, vector1.y, vector2.x, vector2.y, image, red);
-    line(vector2.x, vector2.y, vector3.x, vector3.y, image, red);
-    line(vector1.x, vector1.y, vector3.x, vector3.y, image, red);
+    line(vector1.x, vector1.y, vector2.x, vector2.y, image, color);
+    line(vector2.x, vector2.y, vector3.x, vector3.y, image, color);
+    line(vector1.x, vector1.y, vector3.x, vector3.y, image, color);
 
     if (vector1.y < vector3.y) swap(vector1, vector3);
     if (vector1.y < vector2.y) swap(vector1, vector2);
@@ -182,29 +183,40 @@ void mytriangle(Vec2i vector1, Vec2i vector2, Vec2i vector3,
     cout << yIntercept[0] << " " << yIntercept[1] << " " << yIntercept[2] << "\n";
 
     int yProgress = vector1.y;
-    while (yProgress >= vector2.y) {
-        int xRangeStart = (yProgress - yIntercept[0]) / lineSlope[0];
+    while (yProgress > vector2.y) {
+        cout << "--------" << "\n";
+        int xRangeStart;
+        if (!isfinite(lineSlope[0])) xRangeStart = vector1.x;
+        else xRangeStart = (yProgress - yIntercept[0]) / lineSlope[0];
+        int xRangeEnd;
+        if (!isfinite(lineSlope[2])) xRangeEnd   = vector3.x;
+        else xRangeEnd = (yProgress - yIntercept[2]) / lineSlope[2];
+
         cout << xRangeStart << " " << yIntercept[0] << " " << lineSlope[0] << "\n";
-        int xRangeEnd   = (yProgress - yIntercept[2]) / lineSlope[2];
         cout << xRangeEnd << " " << yIntercept[2] << " " << lineSlope[2] << "\n";
         if (xRangeStart > xRangeEnd) swap(xRangeStart, xRangeEnd);
-        cout << "--------" << "\n";
 
-        for (int xProgress = xRangeStart; xProgress <= xRangeEnd; xProgress++) {
+        for (int xProgress = xRangeStart + 1; xProgress <= xRangeEnd; xProgress++) {
             image.set(xProgress, yProgress, color);
         }
         yProgress = yProgress - 1;
     }
-    while (yProgress >= vector3.y) {
-        int xRangeStart = (yProgress - yIntercept[1]) / lineSlope[1];
-        cout << xRangeStart << " " << yIntercept[1] << " " << lineSlope[1] << "\n";
-        int xRangeEnd   = (yProgress - yIntercept[2]) / lineSlope[2];
-        cout << xRangeEnd << " " << yIntercept[2] << " " << lineSlope[2] << "\n";
+    while (yProgress > vector3.y) {
+        int xRangeStart;
+        if (!isfinite(lineSlope[1])) xRangeStart = vector1.x;
+        else xRangeStart = (yProgress - yIntercept[1]) / lineSlope[1];
+        int xRangeEnd;
+        if (!isfinite(lineSlope[2])) xRangeEnd   = vector3.x;
+        else xRangeEnd = (yProgress - yIntercept[2]) / lineSlope[2];
+
         if (xRangeStart > xRangeEnd) swap(xRangeStart, xRangeEnd);
         cout << "--------" << "\n";
+        cout << "lowerTri " << xRangeStart << " " << yIntercept[1] << " " << lineSlope[1] << "\n";
+        cout << "lowerTri " << xRangeEnd << " " << yIntercept[2] << " " << lineSlope[2] << "\n";
 
-        for (int xProgress = xRangeStart; xProgress <= xRangeEnd; xProgress++) {
+        for (int xProgress = xRangeStart + 1; xProgress <= xRangeEnd; xProgress++) {
             image.set(xProgress, yProgress, color);
+            cout << xProgress << "\n";
         }
         yProgress = yProgress - 1;
     }
@@ -244,14 +256,59 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (true) {
-        Vec2i t0[3] = {Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)};
-        Vec2i t1[3] = {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)};
-        Vec2i t2[3] = {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)};
+    if (false) {
+        for (int i=0; i < model->nfaces(); i++) {
+            std::vector<int> face = model->face(i);
+            /*
+            for (int j=0; j<3; j++) {
+                Vec3f v0 = model->vert(face[j]);
+                Vec3f v1 = model->vert(face[(j+1)%3]);
+                int x0 = (v0.x+1.)*width/2.;
+                int y0 = (v0.y+1.)*height/2.;
+                int x1 = (v1.x+1.)*width/2.;
+                int y1 = (v1.y+1.)*height/2.;
+                line(x0, y0, x1, y1, image, white);
+            }
+            */
+            Vec3f v0[3];
+            v0[0] = model -> vert(face[0]);
+            v0[1] = model -> vert(face[1]);
+            v0[2] = model -> vert(face[2]);
+            Vec2i v1[3];
+            for (int j = 0; j < 3; j++) {
+                v1[j].x = (v0[j].x+1.) * width/2;
+                v1[j].y = (v0[j].y+1.) * height/2;
+            }
+            mytriangle(v1[0], v1[1], v1[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));
+            cout << "====================================";
+        }
+    }
 
+    if (true) {
+        Vec2i triangles[][3] = { /*{Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)},
+                                 {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)},
+                                 {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)},
+                                 /*{Vec2i(200, 200), Vec2i(300, 200), Vec2i(200, 300)},*/
+                                 {Vec2i(450, 450), Vec2i(450, 400), Vec2i(400, 450)},
+                                 {Vec2i(300, 270), Vec2i(300, 300), Vec2i(270, 300)}
+        };
+
+        srand(3);
+
+        for (auto& triangle : triangles) {
+            mytriangle(triangle[0], triangle[1], triangle[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));
+        }
+        /*
+        mytriangle(t0[0], t0[1], t0[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));
+        mytriangle(t1[0], t1[1], t1[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));
+        mytriangle(t2[0], t2[1], t2[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));
+        */
+
+        /*
         mytriangle(t0[0], t0[1], t0[2], image, blue);
         mytriangle(t1[0], t1[1], t1[2], image, white);
         mytriangle(t2[0], t2[1], t2[2], image, green);
+        */
     }
 
     if (true) {

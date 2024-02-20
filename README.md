@@ -144,3 +144,11 @@ All I need to do is figure out why the triangle doesn't cover the entire area
 It probably is an off by one error
 
 ![image](display/lesson2_almostgood.png)
+
+### 02/12 - 02/20
+
+I am having a minor bug that is causing triangles to be drawn in a wierd way
+It has to with the way vectors are inputed into a triangle
+It is easier to look at an example image
+
+![image](display/lesson2_incorrecttriangle.png)
