@@ -1,0 +1,6 @@
+a.out
+__pycache__
+output.tga
+output.png
+*.gch
+build/

@@ -256,7 +256,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (false) {
+    if (true) {
         for (int i=0; i < model->nfaces(); i++) {
             std::vector<int> face = model->face(i);
             /*
@@ -284,7 +284,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    if (true) {
+    if (false) {
         Vec2i triangles[][3] = { /*{Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)},
                                  {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)},
                                  {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)},
@@ -311,7 +311,7 @@ int main(int argc, char** argv) {
         */
     }
 
-    if (true) {
+    if (false) {
         line(5, 5, 40, 40, image, white);
         line(5, 5, 40, 20, image, green);
         line(0, 10, 20, 20, image, blue);
