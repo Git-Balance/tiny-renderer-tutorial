@@ -224,6 +224,8 @@ In general, everything was reformated and reorganized over the past few days
 - Renamed `display/` to `log/`
 - Created a `.gitignore`
 - Moved the test files to a separate repository
+    - Just to clarify, the test files are things to test new features, not tests to see if the code is working correctly. It was moved out of this repository because of their unnecessary and distracting nature (for example, this project should not have random Python scripts lying around)
+    - Instead of just deleting them, I moved them to a new directory on my computer
 - Created `log.md` to host this diary of progress
 - Cleared `README.md`
     - Later it will be rewritten to more accurately describe the current state of the project and have a general guide on compiling the project
