@@ -8,11 +8,11 @@
 
 using namespace std;
 
-const TGAColor white = TGAColor(255, 255, 255, 255);
-const TGAColor red   = TGAColor(255, 0,   0,   255);
-const TGAColor green = TGAColor(0,   255, 0,   255);
-const TGAColor blue  = TGAColor(0,   0,   255, 255);
-const TGAColor pink  = TGAColor(255, 0,   255, 255);
+const TGAColor white = {255, 255, 255, 255}; // BGRA order
+const TGAColor red   = {255, 0,   0,   255};
+const TGAColor green = {0,   255, 0,   255};
+const TGAColor blue  = {0,   0,   255, 255};
+const TGAColor pink  = {255, 0,   255, 255};
 
 Model *model = NULL;
 
@@ -279,7 +279,7 @@ int main(int argc, char** argv) {
                 v1[j].x = (v0[j].x+1.) * width/2;
                 v1[j].y = (v0[j].y+1.) * height/2;
             }
-            mytriangle(v1[0], v1[1], v1[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));
+            mytriangle(v1[0], v1[1], v1[2], image, TGAColor{uint8_t(1 + rand() % 255), uint8_t(1 + rand() % 255), uint8_t(1 + rand() % 255), 255});
             cout << "====================================";
         }
     }
@@ -288,7 +288,7 @@ int main(int argc, char** argv) {
         Vec2i triangles[][3] = { /*{Vec2i(10, 70),   Vec2i(50, 160),  Vec2i(70, 80)},
                                  {Vec2i(180, 50),  Vec2i(150, 1),   Vec2i(70, 180)},
                                  {Vec2i(180, 150), Vec2i(120, 160), Vec2i(130, 180)},
-                                 /*{Vec2i(200, 200), Vec2i(300, 200), Vec2i(200, 300)},*/
+                                 {Vec2i(200, 200), Vec2i(300, 200), Vec2i(200, 300)},*/
                                  {Vec2i(450, 450), Vec2i(450, 400), Vec2i(400, 450)},
                                  {Vec2i(300, 270), Vec2i(300, 300), Vec2i(270, 300)}
         };
@@ -296,7 +296,7 @@ int main(int argc, char** argv) {
         srand(3);
 
         for (auto& triangle : triangles) {
-            mytriangle(triangle[0], triangle[1], triangle[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));
+            mytriangle(triangle[0], triangle[1], triangle[2], image, TGAColor{uint8_t(1 + rand() % 255), uint8_t(1 + rand() % 255), uint8_t(1 + rand() % 255), 255});
         }
         /*
         mytriangle(t0[0], t0[1], t0[2], image, TGAColor(1 + rand() % 255, 1 + rand() % 255, 1 + rand() % 255, 255));

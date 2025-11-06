@@ -232,3 +232,10 @@ In general, everything was reformated and reorganized over the past few days
 
 The actual code itself will be reformated in a separate log entry
 
+### 11/06/25
+
+Replacing sections of code with versions of the updated tutorial files
+
+- Replaced tgaimage.cpp and tgaimage.h
+- Replaced CMakeLists.txt
+- Updated main.cpp to be compatable with updatesepoch
