@@ -1,5 +1,6 @@
 a.out
 __pycache__
+framebuffer.tga
 output.tga
 output.png
 *.gch

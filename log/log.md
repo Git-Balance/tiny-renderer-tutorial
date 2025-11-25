@@ -239,3 +239,7 @@ Replacing sections of code with versions of the updated tutorial files
 - Replaced tgaimage.cpp and tgaimage.h
 - Replaced CMakeLists.txt
 - Updated main.cpp to be compatable with updatesepoch
+
+### 11/24
+Effectively restarting from scratch (again) to follow the tutorial closer
+
