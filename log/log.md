@@ -240,6 +240,16 @@ Replacing sections of code with versions of the updated tutorial files
 - Replaced CMakeLists.txt
 - Updated main.cpp to be compatable with updatesepoch
 
-### 11/24
+### 11/24/25
 Effectively restarting from scratch (again) to follow the tutorial closer
+
+### 12/04/25
+
+I made the mistake in my previous attempts of this tutorial of attempting to make my own versions of functions that I was meant to copy
+
+For context, the tutorial provides a functions that allows the user to draw a line to a framebuffer; in my previous attempts, I did not copy the provided `line()`. Meanwhile, the tutorial gave the reader a "homework" assignment. In the assignment, the reader was supposed to figure out how to make a wireframe render of an `obj` file. For some reason, I just copied his work. In other words, I did work I did not have to and I copied the work that I was supposed to do.
+
+This time, I am following the tutorial better; I am partway done with the first homework assignment
+
+I copied the `line()` that the course originally provided. I decided to center my solution around a `Model` object that stores the variables of the model. `Model` is partway done
 
