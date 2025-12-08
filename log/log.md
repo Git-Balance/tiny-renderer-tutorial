@@ -253,3 +253,7 @@ This time, I am following the tutorial better; I am partway done with the first 
 
 I copied the `line()` that the course originally provided. I decided to center my solution around a `Model` object that stores the variables of the model. `Model` is partway done
 
+### 12/07/25
+
+I have working wireframe renderer, which means that [I am done with the homework for the section of the tutorial called Bresenham’s line drawing](https://haqr.eu/tinyrenderer/bresenham/#homework-wireframe-rendering)
+![Clean Wireframe](./lesson1_cleanwireframe.png)
