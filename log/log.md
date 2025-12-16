@@ -257,3 +257,14 @@ I copied the `line()` that the course originally provided. I decided to center m
 
 I have working wireframe renderer, which means that [I am done with the homework for the section of the tutorial called Bresenham’s line drawing](https://haqr.eu/tinyrenderer/bresenham/#homework-wireframe-rendering)
 ![Clean Wireframe](./lesson1_cleanwireframe.png)
+
+### 12/15/25
+
+Part 1 of the tutorial was finished in record time, and the solution is much cleaner than my previous attempts
+
+Additionally, I am learning more about C++
+
+Part 2 is next, [Triangle rasterization](https://haqr.eu/tinyrenderer/rasterization/) (how to make triangles)
+
+I already have the basic math figured out in a [Desmos graph](https://www.desmos.com/geometry/dayp5huxen) that will be needed
+
