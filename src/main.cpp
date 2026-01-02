@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <string>
 #include <fstream>
+#include <utility>
 #include <vector>
 #include "tgaimage.h"
 
@@ -85,6 +86,67 @@ void line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor color)
         y += (by > ay ? 1 : -1) * (ierror > bx - ax);
         ierror -= 2 * (bx-ax)   * (ierror > bx - ax);
     }
+}
+
+float slope(int ax, int ay, int bx, int by) {
+    return (float(by - ay) / float(bx - ax));
+}
+
+void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color) {
+    // Equations:
+    // y=a\left\{\min\left(f\left(a\right),g\left(a\right)\right)\le x\le\max\left(f\left(a\right),g\left(a\right)\right)\right\}\left\{p_{1}.y\ge y\ge p_{2}.y\right\}
+    // y = {min()}
+    // y=a\left\{\min\left(h\left(a\right),g\left(a\right)\right)\le x\le\max\left(h\left(a\right),g\left(a\right)\right)\right\}\left\{p_{2}.y\ge y\ge p_{3}.y\right\}
+    
+
+    /*
+    Prompt
+    1. Sort the vertices of the triangle by their y-coordinates.
+    2. Rasterize both the left and right edges of the triangle simultaneously.
+    3. Draw horizontal line segments between the left and right boundary points.
+    */
+
+    // sort y-coordinates
+    if (ay<by) {
+        swap(ax, bx);
+        swap(ay, by);
+    }
+    if (ay<cy) {
+        swap(ax, cx);
+        swap(ay, cy);
+    }
+    if (by<cy) {
+        swap(bx, cx);
+        swap(by, cy);
+    }
+
+    // https://en.wikipedia.org/wiki/Law_of_sines
+
+    // For each y in between the min and max of y
+    for (int y = cy; y < ay; y++) {
+        // Draw a line between the the left/right sides of the triangle 
+        int lineBegin;
+        int lineEnd;
+
+        if (y > by) {
+            lineBegin = float(y - ay) / slope(ax, ay, bx, by) + ax;
+        }
+        else {
+            lineBegin = float(y - by) / slope(bx, by, cx, cy) + bx;
+        }
+        lineEnd = (y - cy) / slope(ax, ay, cx, cy) + cx;
+        for (int x = min(lineBegin, lineEnd); x < max(lineBegin, lineEnd); x++) {
+            framebuffer.set(x, y, color);
+        }
+        //line(lineBegin, y, lineEnd, y, framebuffer, color);
+    }
+
+    /*
+    line(ax, ay, bx, by, framebuffer, pink);
+    line(bx, by, cx, cy, framebuffer, pink);
+    line(ax, ay, cx, cy, framebuffer, pink);
+    */
+
 }
 
 Tokens split(std::string s, std::string delimiter) {
@@ -229,16 +291,65 @@ public:
             }
         }
     }
+    void drawTriangles(int width, int height, TGAImage &framebuffer) {
+        // TODO: Remove width and height parameters, replace with TGAImage.width()/height()
+
+        TGAColor color = blue; // A temporary color value to complete the wireframe rendering assignment
+
+        int scale = max(width, height); // NOTE: I am not in love with this name or the way scaling works; feel free to rework this variable
+                                        // Should this use min() instead?
+        for (Face face : faces) {
+            Vertex currentVertexes[3];
+            currentVertexes[0] = vertexes.at(face.v1);
+            currentVertexes[1] = vertexes.at(face.v2);
+            currentVertexes[2] = vertexes.at(face.v3);
+
+            float vertexAdjust = 1;
+            float vertexMultiply = scale / 2.0f;
+            for (int index = 0; index < FACE_VERTEX_NUM; index++) {
+                currentVertexes[index].x += vertexAdjust;
+                currentVertexes[index].y += vertexAdjust;
+                currentVertexes[index].z += vertexAdjust;
+                currentVertexes[index].x *= vertexMultiply;
+                currentVertexes[index].y *= vertexMultiply;
+                currentVertexes[index].z *= vertexMultiply;
+            }
+
+            /*
+            for (int vertexIndex = 0; vertexIndex < FACE_VERTEX_NUM; vertexIndex++) {
+                Vertex vertexA = currentVertexes[vertexIndex];
+                Vertex vertexB = currentVertexes[(vertexIndex + 1) % FACE_VERTEX_NUM];
+                line(vertexA.x, vertexA.y, vertexB.x, vertexB.y, framebuffer, color);
+            }
+            */
+
+            cout << "Drawing triangle" << endl;
+            cout << currentVertexes[0].x << " " << currentVertexes[0].y << " " << currentVertexes[1].x << " " << currentVertexes[1].y << " " << currentVertexes[2].x << " " << currentVertexes[2].y << endl;
+            triangle(currentVertexes[0].x, currentVertexes[0].y, currentVertexes[1].x, currentVertexes[1].y, currentVertexes[2].x, currentVertexes[2].y, framebuffer, color);
+        }
+    }
+
 };
 
 int main(int argc, char** argv) {
     constexpr int width  = 1024;
     constexpr int height = 1024;
+    /*
+    constexpr int width  = 128;
+    constexpr int height = 128;
+    */
     TGAImage framebuffer(width, height, TGAImage::RGB);
 
     Model model("./obj/diablo3_pose/diablo3_pose.obj");
 
-    model.drawWireframe(width, height, framebuffer);
+    //model.drawWireframe(width, height, framebuffer);
+    model.drawTriangles(width, height, framebuffer);
+
+    /*
+    triangle(  7, 45, 35, 100, 45,  60, framebuffer, red);
+    triangle(120, 35, 90,   5, 45, 110, framebuffer, white);
+    triangle(115, 83, 80,  90, 85, 120, framebuffer, green);
+    */
 
     framebuffer.write_tga_file("framebuffer.tga");
     return 0;

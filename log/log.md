@@ -268,3 +268,17 @@ Part 2 is next, [Triangle rasterization](https://haqr.eu/tinyrenderer/rasterizat
 
 I already have the basic math figured out in a [Desmos graph](https://www.desmos.com/geometry/dayp5huxen) that will be needed
 
+### 01/01/26
+
+Currently, I have the `triangle()` function almost working
+
+![working triangles](./lesson2_newtriangles.png)
+
+There are two (probably related) problems:
+1. The performance is abysmal. It currently takes minutes to generate an image from the model currently used (which is a character from Diablo 3)
+2. There are visual glitches in the image
+
+![glitched](./lesson2_albumart.png)
+
+It looks like album art 🙃
+
