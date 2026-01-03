@@ -128,7 +128,7 @@ void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuf
         int lineBegin;
         int lineEnd;
 
-        if (y > by) {
+        if (y >= by) {
             lineBegin = float(y - ay) / slope(ax, ay, bx, by) + ax;
         }
         else {
@@ -294,8 +294,6 @@ public:
     void drawTriangles(int width, int height, TGAImage &framebuffer) {
         // TODO: Remove width and height parameters, replace with TGAImage.width()/height()
 
-        TGAColor color = blue; // A temporary color value to complete the wireframe rendering assignment
-
         int scale = max(width, height); // NOTE: I am not in love with this name or the way scaling works; feel free to rework this variable
                                         // Should this use min() instead?
         for (Face face : faces) {
@@ -315,16 +313,11 @@ public:
                 currentVertexes[index].z *= vertexMultiply;
             }
 
-            /*
-            for (int vertexIndex = 0; vertexIndex < FACE_VERTEX_NUM; vertexIndex++) {
-                Vertex vertexA = currentVertexes[vertexIndex];
-                Vertex vertexB = currentVertexes[(vertexIndex + 1) % FACE_VERTEX_NUM];
-                line(vertexA.x, vertexA.y, vertexB.x, vertexB.y, framebuffer, color);
+            // The random color code was taken from the tutorial
+            TGAColor color;
+            for (int colorIndex = 0; colorIndex < 3; colorIndex++) {
+                color[colorIndex] = std::rand() % 255;
             }
-            */
-
-            cout << "Drawing triangle" << endl;
-            cout << currentVertexes[0].x << " " << currentVertexes[0].y << " " << currentVertexes[1].x << " " << currentVertexes[1].y << " " << currentVertexes[2].x << " " << currentVertexes[2].y << endl;
             triangle(currentVertexes[0].x, currentVertexes[0].y, currentVertexes[1].x, currentVertexes[1].y, currentVertexes[2].x, currentVertexes[2].y, framebuffer, color);
         }
     }
@@ -334,10 +327,8 @@ public:
 int main(int argc, char** argv) {
     constexpr int width  = 1024;
     constexpr int height = 1024;
-    /*
-    constexpr int width  = 128;
-    constexpr int height = 128;
-    */
+    // constexpr int width  = 128;
+    // constexpr int height = 128;
     TGAImage framebuffer(width, height, TGAImage::RGB);
 
     Model model("./obj/diablo3_pose/diablo3_pose.obj");
@@ -345,11 +336,15 @@ int main(int argc, char** argv) {
     //model.drawWireframe(width, height, framebuffer);
     model.drawTriangles(width, height, framebuffer);
 
-    /*
-    triangle(  7, 45, 35, 100, 45,  60, framebuffer, red);
-    triangle(120, 35, 90,   5, 45, 110, framebuffer, white);
-    triangle(115, 83, 80,  90, 85, 120, framebuffer, green);
-    */
+    // triangle(  7, 45, 35, 100, 45,  60, framebuffer, red);
+    // triangle(120, 35, 90,   5, 45, 110, framebuffer, white);
+    // triangle(115, 83, 80,  90, 85, 120, framebuffer, green);
+
+    // triangle(532.451, 853.951, 532.631, 847.68, 538.857, 847.014, framebuffer, pink);
+
+    // triangle(10, 10, 10, 20, 20, 20, framebuffer, pink);
+    // triangle(10, 10, 10, 20, 20, 10, framebuffer, pink);
+    // triangle(30, 30, 40, 30, 40, 20, framebuffer, pink);
 
     framebuffer.write_tga_file("framebuffer.tga");
     return 0;

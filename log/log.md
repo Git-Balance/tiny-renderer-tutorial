@@ -282,3 +282,17 @@ There are two (probably related) problems:
 
 It looks like album art 🙃
 
+### 01/03/26
+
+I solved the visual glitches and the major performance issues from yesterday. I can get an image from a model practially instantly
+
+Image from model with solid triangle color:
+
+![filled](./lesson2_modeltrianglefilled.png)
+
+Image from model with random triangle colors (the code for random colors was taken from the tutorial):
+
+![filled](./lesson2_modeltrianglerandom.png)
+
+The tutorial shows an alternate approach to [drawing triangles](https://haqr.eu/tinyrenderer/rasterization/#modern-rasterization-approach) which I want to explore; I especially want to learn what the `#pragma omp parallel for` line of code means
+
