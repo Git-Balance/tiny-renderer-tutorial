@@ -12,11 +12,11 @@ During November 2023 and Feburary 2024, I attempted to vaguely follow the tutori
 
 In 2025 (the time I am writing this), I decided to revisit this project for 2 reasons:
 1. I wanted to continue with the project, since it was interesting
-2. I learned became a more experienced C++ programmer and I wanted to revise what I had done so far
+2. I became a more experienced C++ programmer and I wanted to revise what I had done so far
 
 The tutorial changed during my break; it moved from a [GitHub Wiki](https://github.com/ssloy/tinyrenderer/wiki/Lesson-0:-getting-started) to a [dedicated website](https://haqr.eu/tinyrenderer/)
 
-The progress enteries were moved from the README.md to here
+Additionally, the progress enteries were moved from the README.md to here
 
 ## Progress
 
