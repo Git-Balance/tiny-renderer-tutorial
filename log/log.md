@@ -26,7 +26,7 @@ Finished lesson 1
 
 While I did copy most of the code from the guy's "snapshots," I did write the code for making the lines all by myself
 
-![image](display/lesson1_wireframe.png)
+![image](./lesson1_wireframe.png)
 
 ### 11/05/23 - 11/06/23
 
@@ -38,7 +38,7 @@ Then, I had a lot of problems regarding the triangle
 
 Long story short, I'm taking a break from this project
 
-![image](display/lesson2_failedtriangles.png)
+![image](./lesson2_failedtriangles.png)
 
 ### 11/07/23
 
@@ -97,7 +97,7 @@ I am proud of my algorithm
 
 HOWEVER, I only have the basic algorithm of step 1.1, I still need to make the rest of the algorithm so it can handle steep lines and stuff like that
 
-![image](display/lesson1_successfulstart.png)
+![image](./lesson1_successfulstart.png)
 
 ### 01/05/24 - continued
 
@@ -111,7 +111,7 @@ Step 1.3:
 - This step covers handling steep lines and right-to-left lines
 - The code needs to be cleaned up a lot, but otherwise I think it is good
 
-![image](display/lesson1_step2and3.png)
+![image](./lesson1_step2and3.png)
 
 ### 01/06/24
 
@@ -124,7 +124,7 @@ Also, a wireframe version of the face was made with the new line
 
 Lesson 1 is done
 
-![image](display/lesson1_newwireframe.png)
+![image](./lesson1_newwireframe.png)
 
 ### 01/25/24
 
@@ -176,7 +176,7 @@ This is where I am at currently
 
 Additionally, I attached a picture to show what I currently have for future reference on what changes
 
-![image](display/lesson2_originalversion.png)
+![image](./lesson2_originalversion.png)
 
 ### 02/11/24
 
@@ -184,7 +184,7 @@ I got a cool glitch
 
 I'm don't even know how this went so perfectly wrong
 
-![image](display/lesson2_coolfail.png)
+![image](./lesson2_coolfail.png)
 
 ### 02/11/24 - continued
 
@@ -194,7 +194,7 @@ All I need to do is figure out why the triangle doesn't cover the entire area
 
 It probably is an off by one error
 
-![image](display/lesson2_almostgood.png)
+![image](./lesson2_almostgood.png)
 
 ### 02/12/24 - 02/20/24
 
@@ -204,7 +204,7 @@ It has to with the way vectors are inputed into a triangle
 
 It is easier to look at an example image
 
-![image](display/lesson2_incorrecttriangle.png)
+![image](./lesson2_incorrecttriangle.png)
 
 ### 02/27/24
 
