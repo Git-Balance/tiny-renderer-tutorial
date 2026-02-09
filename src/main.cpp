@@ -92,61 +92,29 @@ float slope(int ax, int ay, int bx, int by) {
     return (float(by - ay) / float(bx - ax));
 }
 
+double signed_triangle_area(int ax, int ay, int bx, int by, int cx, int cy) {
+    return 0.5 * ((by-ay)*(bx+ax) + (cy-by)*(cx+bx) + (ay-cy)*(ax+cx));
+}
+
 void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color) {
-    // Equations:
-    // y=a\left\{\min\left(f\left(a\right),g\left(a\right)\right)\le x\le\max\left(f\left(a\right),g\left(a\right)\right)\right\}\left\{p_{1}.y\ge y\ge p_{2}.y\right\}
-    // y = {min()}
-    // y=a\left\{\min\left(h\left(a\right),g\left(a\right)\right)\le x\le\max\left(h\left(a\right),g\left(a\right)\right)\right\}\left\{p_{2}.y\ge y\ge p_{3}.y\right\}
-    
+    // Get bounding box
+    int bbminx = std::min(std::min(ax, bx), cx);
+    int bbminy = std::min(std::min(ay, by), cy);
+    int bbmaxx = std::max(std::max(ax, bx), cx);
+    int bbmaxy = std::max(std::max(ay, by), cy);
+    double total_area = signed_triangle_area(ax, ay, bx, by, cx, cy);
+    if (total_area<1) return;
 
-    /*
-    Prompt
-    1. Sort the vertices of the triangle by their y-coordinates.
-    2. Rasterize both the left and right edges of the triangle simultaneously.
-    3. Draw horizontal line segments between the left and right boundary points.
-    */
-
-    // sort y-coordinates
-    if (ay<by) {
-        swap(ax, bx);
-        swap(ay, by);
-    }
-    if (ay<cy) {
-        swap(ax, cx);
-        swap(ay, cy);
-    }
-    if (by<cy) {
-        swap(bx, cx);
-        swap(by, cy);
-    }
-
-    // https://en.wikipedia.org/wiki/Law_of_sines
-
-    // For each y in between the min and max of y
-    for (int y = cy; y < ay; y++) {
-        // Draw a line between the the left/right sides of the triangle 
-        int lineBegin;
-        int lineEnd;
-
-        if (y >= by) {
-            lineBegin = float(y - ay) / slope(ax, ay, bx, by) + ax;
-        }
-        else {
-            lineBegin = float(y - by) / slope(bx, by, cx, cy) + bx;
-        }
-        lineEnd = (y - cy) / slope(ax, ay, cx, cy) + cx;
-        for (int x = min(lineBegin, lineEnd); x < max(lineBegin, lineEnd); x++) {
+    #pragma omp parallel for
+    for (int x = bbminx; x <= bbmaxx; x++) {
+        for (int y = bbminy; y <= bbmaxy; y++) {
+            double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
+            double beta  = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
+            double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
+            if (alpha < 0 || beta < 0 || gamma < 0) continue;
             framebuffer.set(x, y, color);
         }
-        //line(lineBegin, y, lineEnd, y, framebuffer, color);
     }
-
-    /*
-    line(ax, ay, bx, by, framebuffer, pink);
-    line(bx, by, cx, cy, framebuffer, pink);
-    line(ax, ay, cx, cy, framebuffer, pink);
-    */
-
 }
 
 Tokens split(std::string s, std::string delimiter) {
@@ -346,6 +314,7 @@ int main(int argc, char** argv) {
     // triangle(10, 10, 10, 20, 20, 10, framebuffer, pink);
     // triangle(30, 30, 40, 30, 40, 20, framebuffer, pink);
 
+    framebuffer.flip_vertically();
     framebuffer.write_tga_file("framebuffer.tga");
     return 0;
 }

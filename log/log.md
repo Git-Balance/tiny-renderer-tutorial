@@ -296,3 +296,7 @@ Image from model with random triangle colors (the code for random colors was tak
 
 The tutorial shows an alternate approach to [drawing triangles](https://haqr.eu/tinyrenderer/rasterization/#modern-rasterization-approach) which I want to explore; I especially want to learn what the `#pragma omp parallel for` line of code means
 
+### 02/09/26
+
+I finished the [Triangle rasterization](https://haqr.eu/tinyrenderer/rasterization/) part of the tutorial, but I didn't understand much about the barcentric coordinates. Since the [next section](https://haqr.eu/tinyrenderer/barycentric/) is about barycentric coordinates, I plan on completing it first, then mess around with the subject on my own
+
