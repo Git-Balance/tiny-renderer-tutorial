@@ -117,6 +117,34 @@ void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuf
     }
 }
 
+
+void triangleBarycentric(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color) {
+    // Get bounding box
+    int bbminx = std::min(std::min(ax, bx), cx);
+    int bbminy = std::min(std::min(ay, by), cy);
+    int bbmaxx = std::max(std::max(ax, bx), cx);
+    int bbmaxy = std::max(std::max(ay, by), cy);
+    double total_area = signed_triangle_area(ax, ay, bx, by, cx, cy);
+    // if (total_area<1) return;
+
+    #pragma omp parallel for
+    for (int x = bbminx; x <= bbmaxx; x++) {
+        for (int y = bbminy; y <= bbmaxy; y++) {
+            double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
+            double beta  = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
+            double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
+            if (alpha < 0 || beta < 0 || gamma < 0) continue;
+            TGAColor bayColor = TGAColor{{
+                static_cast<unsigned char>(alpha * 255),
+                static_cast<unsigned char>(beta * 255),
+                static_cast<unsigned char>(gamma * 255),
+                static_cast<unsigned char>(255)
+                }};
+            framebuffer.set(x, y, bayColor);
+        }
+    }
+}
+
 Tokens split(std::string s, std::string delimiter) {
     // Inspiration: https://stackoverflow.com/a/46931770
     Tokens tokens;
@@ -293,20 +321,20 @@ public:
 };
 
 int main(int argc, char** argv) {
-    constexpr int width  = 1024;
-    constexpr int height = 1024;
-    // constexpr int width  = 128;
-    // constexpr int height = 128;
+    // constexpr int width  = 1024;
+    // constexpr int height = 1024;
+    constexpr int width  = 128;
+    constexpr int height = 128;
     TGAImage framebuffer(width, height, TGAImage::RGB);
 
     Model model("./obj/diablo3_pose/diablo3_pose.obj");
 
     //model.drawWireframe(width, height, framebuffer);
-    model.drawTriangles(width, height, framebuffer);
+    // model.drawTriangles(width, height, framebuffer);
 
-    // triangle(  7, 45, 35, 100, 45,  60, framebuffer, red);
-    // triangle(120, 35, 90,   5, 45, 110, framebuffer, white);
-    // triangle(115, 83, 80,  90, 85, 120, framebuffer, green);
+    triangleBarycentric(  7, 45, 35, 100, 45,  60, framebuffer, red);
+    triangleBarycentric(120, 35, 90,   5, 45, 110, framebuffer, white);
+    triangleBarycentric(115, 83, 80,  90, 85, 120, framebuffer, green);
 
     // triangle(532.451, 853.951, 532.631, 847.68, 538.857, 847.014, framebuffer, pink);
 

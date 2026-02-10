@@ -300,3 +300,15 @@ The tutorial shows an alternate approach to [drawing triangles](https://haqr.eu/
 
 I finished the [Triangle rasterization](https://haqr.eu/tinyrenderer/rasterization/) part of the tutorial, but I didn't understand much about the barcentric coordinates. Since the [next section](https://haqr.eu/tinyrenderer/barycentric/) is about barycentric coordinates, I plan on completing it first, then mess around with the subject on my own
 
+### 02/10/26
+
+![rainbow](./lesson3_rainbow.png)
+
+I got the rainbow triangles working :)
+
+Anyways, I understand barycentric coordinantes better. Its useful to think of them as center of mass equations.
+
+I'm going to mess with the barycentric-colored trianlges for a while
+
+Side note: `gdb` is a useful tool, but I need to figure out how to use it with multi-threaded programs
+
