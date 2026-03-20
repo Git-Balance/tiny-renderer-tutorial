@@ -24,6 +24,8 @@ find_package(OpenMP COMPONENTS CXX)
 set(SOURCES
     src/main.cpp
     src/tgaimage.cpp
+    src/model.cpp
+    src/draw.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

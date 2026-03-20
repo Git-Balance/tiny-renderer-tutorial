@@ -312,3 +312,7 @@ I'm going to mess with the barycentric-colored trianlges for a while
 
 Side note: `gdb` is a useful tool, but I need to figure out how to use it with multi-threaded programs
 
+### 03/20/26
+
+Today I separated the code into multiple files (mostly just copying and pasting), and I plan on editting the code itself to be more readable
+
