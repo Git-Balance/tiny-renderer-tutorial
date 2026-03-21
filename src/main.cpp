@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     // triangle(10, 10, 10, 20, 20, 10, framebuffer, pink);
     // triangle(30, 30, 40, 30, 40, 20, framebuffer, pink);
 
-    framebuffer.flip_vertically();
+    // framebuffer.flip_vertically();
     framebuffer.write_tga_file("framebuffer.tga");
     return 0;
 }

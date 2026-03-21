@@ -26,9 +26,9 @@ Tokens split(std::string s, std::string delimiter) {
     return tokens;
 }
 
-size_t Model::getVertexCount() { return vertexCount; }
+size_t Model::getVertexCount() { return sizeof(vertexes); }
 // void setVertexCount(size_t vn) { vertexCount = vn; } // Why would I need to change the vertex count?
-size_t Model::getFaceCount() { return faceCount; }
+size_t Model::getFaceCount() { return sizeof(faces); }
 std::vector<Vertex> Model::getVertexes() { return vertexes; }
 std::vector<Face> Model::getFaces() { return faces; }
 
@@ -52,22 +52,18 @@ void Model::addVertex(Tokens tokens) {
      */
     // v 0.11526 0.700717 0.0677257
     Vertex vertex{};
-    vertex.x = std::stof(tokens.at(1));
-    vertex.y = std::stof(tokens.at(2));
-    vertex.z = std::stof(tokens.at(3));
+    for (int tokenChar = 1; tokenChar < 4; tokenChar++) {
+        vertex.xyz[tokenChar - 1] = std::stof(tokens.at(tokenChar));
+    }
     vertexes.push_back(vertex);
 }
 
 void Model::addFace(Tokens tokens) {
     Face face{};
     int indexMax = 3;
-    int v[indexMax];
     for (int index = 0; index < indexMax; index++) {
-        v[index] = std::stoi(split(tokens.at(index + 1), "/").at(0)) - 1;
+        face.v[index] = std::stoi(split(tokens.at(index + 1), "/").at(0)) - 1;
     }
-    face.v1 = v[0];
-    face.v2 = v[1];
-    face.v3 = v[2];
     faces.push_back(face);
 }
 
@@ -99,13 +95,13 @@ Model::Model(std::string filename) {
         getline(in, line);
         tokens = split(line, " ");
 
+        // TODO: Add function that verifies line is formatted correctly
+
         switch (getLineType(tokens)) {
             case VERTEX:
-                vertexCount++;
                 addVertex(tokens);
                 break;
             case FACE:
-                faceCount++;
                 addFace(tokens);
                 break;
             case OTHER:
@@ -114,6 +110,10 @@ Model::Model(std::string filename) {
         }
     }
 }
+
+// TODO: drawWireframe and drawTriangles share code; split repeated code into functions
+// Maybe make a `vertexTrio` struct and a `vertexTrio faceToTrio(Face face)` function?
+// Or maybe just rework how the `Face` struct works
 void Model::drawWireframe(int width, int height, TGAImage &framebuffer) {
     // TODO: Remove width and height parameters, replace with TGAImage.width()/height()
 
@@ -123,19 +123,17 @@ void Model::drawWireframe(int width, int height, TGAImage &framebuffer) {
                                          // Should this use min() instead?
     for (Face face : faces) {
         Vertex currentVertexes[3];
-        currentVertexes[0] = vertexes.at(face.v1);
-        currentVertexes[1] = vertexes.at(face.v2);
-        currentVertexes[2] = vertexes.at(face.v3);
+        for (int vertex = 0; vertex < 3; vertex++) {
+            currentVertexes[vertex] = vertexes.at(face.v[vertex]);
+        }
 
         float vertexAdjust = 1;
         float vertexMultiply = scale / 2.0f;
         for (int index = 0; index < FACE_VERTEX_NUM; index++) {
-            currentVertexes[index].x += vertexAdjust;
-            currentVertexes[index].y += vertexAdjust;
-            currentVertexes[index].z += vertexAdjust;
-            currentVertexes[index].x *= vertexMultiply;
-            currentVertexes[index].y *= vertexMultiply;
-            currentVertexes[index].z *= vertexMultiply;
+            for (int dimension = 0; dimension < 3; dimension++) {
+                currentVertexes[index][dimension] += vertexAdjust;
+                currentVertexes[index][dimension] *= vertexMultiply;
+            }
         }
 
         for (int vertexIndex = 0; vertexIndex < FACE_VERTEX_NUM; vertexIndex++) {
@@ -145,6 +143,7 @@ void Model::drawWireframe(int width, int height, TGAImage &framebuffer) {
         }
     }
 }
+
 void Model::drawTriangles(int width, int height, TGAImage &framebuffer) {
     // TODO: Remove width and height parameters, replace with TGAImage.width()/height()
 
@@ -152,19 +151,17 @@ void Model::drawTriangles(int width, int height, TGAImage &framebuffer) {
                                     // Should this use min() instead?
     for (Face face : faces) {
         Vertex currentVertexes[3];
-        currentVertexes[0] = vertexes.at(face.v1);
-        currentVertexes[1] = vertexes.at(face.v2);
-        currentVertexes[2] = vertexes.at(face.v3);
+        for (int vertex = 0; vertex < 3; vertex++) {
+            currentVertexes[vertex] = vertexes.at(face.v[vertex]);
+        }
 
         float vertexAdjust = 1;
         float vertexMultiply = scale / 2.0f;
         for (int index = 0; index < FACE_VERTEX_NUM; index++) {
-            currentVertexes[index].x += vertexAdjust;
-            currentVertexes[index].y += vertexAdjust;
-            currentVertexes[index].z += vertexAdjust;
-            currentVertexes[index].x *= vertexMultiply;
-            currentVertexes[index].y *= vertexMultiply;
-            currentVertexes[index].z *= vertexMultiply;
+            for (int dimension = 0; dimension < 3; dimension++) {
+                currentVertexes[index][dimension] += vertexAdjust;
+                currentVertexes[index][dimension] *= vertexMultiply;
+            }
         }
 
         // The random color code was taken from the tutorial

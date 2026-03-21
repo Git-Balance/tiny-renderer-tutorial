@@ -316,3 +316,13 @@ Side note: `gdb` is a useful tool, but I need to figure out how to use it with m
 
 Today I separated the code into multiple files (mostly just copying and pasting), and I plan on editting the code itself to be more readable
 
+Additionally, on certain devices, the tga image has to be flipped vertically. This might be an issue with what software I am using to view the images
+
+#### Later
+
+I am experimenting with `union` and `operator[]` in the `vertex` and `face` struct to see if they make programming easier. On paper, they should have made my code more readable. However, I am not sure they did, since I am adding unclear loops in my code. Plus, I could split sections of my code into functions (for example, `drawWireframe` and `drawTriangles` share similar code)
+
+This probably doesn't make much sense
+
+I should probably move on in the tutorial
+

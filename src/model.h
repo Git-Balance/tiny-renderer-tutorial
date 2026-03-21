@@ -60,14 +60,10 @@ Tokens split(std::string s, std::string delimiter);
 
 class Model {
 private:
-    // TODO: Remove the count variables once vertexes and faces are properly implemented
-    size_t vertexCount = 0; // For now, vertexNum = 3 means that there are 3 vertexes, not 4
-    size_t faceCount = 0;
     std::vector<Vertex> vertexes; // QUESTION: Should vertexes and faces be converted into arrays once their data is initially red? At that point, we know what the size of the vector is
     std::vector<Face> faces;
 public:
     size_t getVertexCount();
-    // void setVertexCount(size_t vn) { vertexCount = vn; } // Why would I need to change the vertex count?
     size_t getFaceCount();
     std::vector<Vertex> getVertexes();
     std::vector<Face> getFaces();
