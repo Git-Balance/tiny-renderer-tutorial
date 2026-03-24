@@ -12,6 +12,23 @@
 using Token = std::string;
 using Tokens = std::vector<Token>;
 
+void VertexAdjuster::setScale(int width, int height) {
+    scale = std::max(width, height);
+}
+
+VertexAdjuster::VertexAdjuster(int width, int height, float pointAdjust) {
+    setScale(width, height);
+    pointAdjust = pointAdjust;
+    pointMultiply = scale / 2.0f;
+}
+
+void VertexAdjuster::adjust(Vertex &vertex) {
+    for (int dimension = 0; dimension < 3; dimension++) {
+        vertex[dimension] += pointAdjust;
+        vertex[dimension] *= pointMultiply;
+    }
+}
+
 Tokens split(std::string s, std::string delimiter) {
     // Inspiration: https://stackoverflow.com/a/46931770
     Tokens tokens;
@@ -119,21 +136,15 @@ void Model::drawWireframe(int width, int height, TGAImage &framebuffer) {
 
     TGAColor color = blue; // A temporary color value to complete the wireframe rendering assignment
 
-    int scale = std::max(width, height); // NOTE: I am not in love with this name or the way scaling works; feel free to rework this variable
-                                         // Should this use min() instead?
+    VertexAdjuster adjuster{width, height, 1.0f};
     for (Face face : faces) {
         Vertex currentVertexes[3];
         for (int vertex = 0; vertex < 3; vertex++) {
             currentVertexes[vertex] = vertexes.at(face.v[vertex]);
         }
 
-        float vertexAdjust = 1;
-        float vertexMultiply = scale / 2.0f;
         for (int index = 0; index < FACE_VERTEX_NUM; index++) {
-            for (int dimension = 0; dimension < 3; dimension++) {
-                currentVertexes[index][dimension] += vertexAdjust;
-                currentVertexes[index][dimension] *= vertexMultiply;
-            }
+            adjuster.adjust(currentVertexes[index]);
         }
 
         for (int vertexIndex = 0; vertexIndex < FACE_VERTEX_NUM; vertexIndex++) {

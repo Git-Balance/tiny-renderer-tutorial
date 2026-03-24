@@ -326,3 +326,8 @@ This probably doesn't make much sense
 
 I should probably move on in the tutorial
 
+### 03/24/26
+
+The bug that caused the image to be rotated incorrectly on certain devices was caused by my image viewing software. Before, I used the command `display framebuffer.tga` using [ImageMagick](https://imagemagick.org/#gsc.tab=0) software, but I should use `display -auto-orient framebuffer.tga`
+
+Anyways, I added a `VertexAdjuster` object

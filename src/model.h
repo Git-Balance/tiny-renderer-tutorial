@@ -53,6 +53,20 @@ struct Face {
     // Future variables will be added later
 };
 
+// FrameAdjuster?
+class VertexAdjuster {
+private:
+    // NOTE: I am not in love with this name or the way scaling works; feel free to rework this variable
+     // Should this use min() instead?
+    int scale;
+    float pointAdjust;
+    float pointMultiply;
+public:
+    void setScale(int width, int height);
+    VertexAdjuster(int width, int height, float pointAdjust);
+    void adjust(Vertex &vertex);
+};
+
 using Token = std::string;
 using Tokens = std::vector<Token>;
 
