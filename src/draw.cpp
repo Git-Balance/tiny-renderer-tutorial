@@ -35,7 +35,7 @@ double signed_triangle_area(int ax, int ay, int bx, int by, int cx, int cy) {
     return 0.5 * ((by-ay)*(bx+ax) + (cy-by)*(cx+bx) + (ay-cy)*(ax+cx));
 }
 
-void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color) {
+void triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &framebuffer, TGAImage &zbuffer, TGAColor color) {
     // Get bounding box
     int bbminx = std::min(std::min(ax, bx), cx);
     int bbminy = std::min(std::min(ay, by), cy);
@@ -50,7 +50,8 @@ void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuf
             double alpha = signed_triangle_area(x, y, bx, by, cx, cy) / total_area;
             double beta  = signed_triangle_area(x, y, cx, cy, ax, ay) / total_area;
             double gamma = signed_triangle_area(x, y, ax, ay, bx, by) / total_area;
-            if (alpha < 0 || beta < 0 || gamma < 0) continue;
+            unsigned char z = static_cast<unsigned char>(alpha * az + beta * bz + gamma * cz);
+            zbuffer.set(x, y, {z});
             framebuffer.set(x, y, color);
         }
     }

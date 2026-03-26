@@ -11,7 +11,7 @@ float slope(int ax, int ay, int bx, int by);
 
 double signed_triangle_area(int ax, int ay, int bx, int by, int cx, int cy);
 
-void triangle(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color);
+void triangle(int ax, int ay, int az, int bx, int by, int bz, int cx, int cy, int cz, TGAImage &framebuffer, TGAImage &zbuffer, TGAColor color);
 
 void triangleBarycentric(int ax, int ay, int bx, int by, int cx, int cy, TGAImage &framebuffer, TGAColor color);
 

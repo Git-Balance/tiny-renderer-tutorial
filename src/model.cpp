@@ -7,7 +7,6 @@
 #include <iostream>
 #include "tgaimage.h"
 #include "draw.h"
-#include "colors.h"
 
 using Token = std::string;
 using Tokens = std::vector<Token>;
@@ -16,17 +15,20 @@ void VertexAdjuster::setScale(int width, int height) {
     scale = std::max(width, height);
 }
 
-VertexAdjuster::VertexAdjuster(int width, int height, float pointAdjust) {
+VertexAdjuster::VertexAdjuster(int width, int height) {
+    this->width = width;
+    this->height = height;
     setScale(width, height);
-    pointAdjust = pointAdjust;
+    pointAdjust = 1.0f;
     pointMultiply = scale / 2.0f;
 }
 
-void VertexAdjuster::adjust(Vertex &vertex) {
-    for (int dimension = 0; dimension < 3; dimension++) {
-        vertex[dimension] += pointAdjust;
-        vertex[dimension] *= pointMultiply;
-    }
+Vec3i VertexAdjuster::adjust(Vertex &v) {
+    return Vec3i{
+            static_cast<int>((v.x + pointAdjust) * width/2),
+            static_cast<int>((v.y + pointAdjust) * height/2),
+            static_cast<int>((v.z + pointAdjust) * 255./2),
+    };
 }
 
 Tokens split(std::string s, std::string delimiter) {
@@ -43,9 +45,9 @@ Tokens split(std::string s, std::string delimiter) {
     return tokens;
 }
 
-size_t Model::getVertexCount() { return sizeof(vertexes); }
+size_t Model::getVertexCount() { return vertexes.size(); }
 // void setVertexCount(size_t vn) { vertexCount = vn; } // Why would I need to change the vertex count?
-size_t Model::getFaceCount() { return sizeof(faces); }
+size_t Model::getFaceCount() { return faces.size(); }
 std::vector<Vertex> Model::getVertexes() { return vertexes; }
 std::vector<Face> Model::getFaces() { return faces; }
 
@@ -131,56 +133,21 @@ Model::Model(std::string filename) {
 // TODO: drawWireframe and drawTriangles share code; split repeated code into functions
 // Maybe make a `vertexTrio` struct and a `vertexTrio faceToTrio(Face face)` function?
 // Or maybe just rework how the `Face` struct works
-void Model::drawWireframe(int width, int height, TGAImage &framebuffer) {
+void Model::draw(int width, int height, TGAImage &framebuffer, TGAImage &zbuffer) {
     // TODO: Remove width and height parameters, replace with TGAImage.width()/height()
 
-    TGAColor color = blue; // A temporary color value to complete the wireframe rendering assignment
-
-    VertexAdjuster adjuster{width, height, 1.0f};
     for (Face face : faces) {
-        Vertex currentVertexes[3];
-        for (int vertex = 0; vertex < 3; vertex++) {
-            currentVertexes[vertex] = vertexes.at(face.v[vertex]);
-        }
-
-        for (int index = 0; index < FACE_VERTEX_NUM; index++) {
-            adjuster.adjust(currentVertexes[index]);
-        }
-
-        for (int vertexIndex = 0; vertexIndex < FACE_VERTEX_NUM; vertexIndex++) {
-            Vertex vertexA = currentVertexes[vertexIndex];
-            Vertex vertexB = currentVertexes[(vertexIndex + 1) % FACE_VERTEX_NUM];
-            line(vertexA.x, vertexA.y, vertexB.x, vertexB.y, framebuffer, color);
-        }
-    }
-}
-
-void Model::drawTriangles(int width, int height, TGAImage &framebuffer) {
-    // TODO: Remove width and height parameters, replace with TGAImage.width()/height()
-
-    int scale = std::max(width, height); // NOTE: I am not in love with this name or the way scaling works; feel free to rework this variable
-                                    // Should this use min() instead?
-    for (Face face : faces) {
-        Vertex currentVertexes[3];
-        for (int vertex = 0; vertex < 3; vertex++) {
-            currentVertexes[vertex] = vertexes.at(face.v[vertex]);
-        }
-
-        float vertexAdjust = 1;
-        float vertexMultiply = scale / 2.0f;
-        for (int index = 0; index < FACE_VERTEX_NUM; index++) {
-            for (int dimension = 0; dimension < 3; dimension++) {
-                currentVertexes[index][dimension] += vertexAdjust;
-                currentVertexes[index][dimension] *= vertexMultiply;
-            }
-        }
+        VertexAdjuster projector{width, height};
+        Vec3i a = projector.adjust(vertexes.at(face.v[0]));
+        Vec3i b = projector.adjust(vertexes.at(face.v[1]));
+        Vec3i c = projector.adjust(vertexes.at(face.v[2]));
 
         // The random color code was taken from the tutorial
-        TGAColor color;
+        TGAColor rColor;
         for (int colorIndex = 0; colorIndex < 3; colorIndex++) {
-            color[colorIndex] = std::rand() % 255;
+            rColor[colorIndex] = std::rand() % 255;
         }
-        triangle(currentVertexes[0].x, currentVertexes[0].y, currentVertexes[1].x, currentVertexes[1].y, currentVertexes[2].x, currentVertexes[2].y, framebuffer, color);
+        triangle(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, framebuffer, zbuffer, rColor);
     }
 }
 

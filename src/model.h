@@ -8,6 +8,7 @@
 #include "tgaimage.h"
 #include "draw.h"
 #include "colors.h"
+#include "geometry.h"
 
 #define FACE_VERTEX_NUM 3
 
@@ -18,53 +19,19 @@ enum ModelLineType {
     OTHER = 99
 };
 
-struct Vertex {
-    union {
-        float xyz[3];
-        struct {
-            float x;
-            float y;
-            float z;
-        };
-    };
-    float& operator[](const int i) { return xyz[i]; }
-};
-
-struct Face {
-    /*
-        f 6/1/6 5/2/5 8/3/8
-        f 6/1/6 8/3/8 7/4/7
-        f 12/5/12 11/6/11 10/7/10
-     */
-
-    // NOTE: While obj files start their indexes at 1 (at least for faces), the Face struct's indexes will start at 0
-
-    // Refrence: f v1/__/__ v2/__/__ v3/__/__
-
-    union {
-        // Vertexes
-        int v[3];
-        struct {
-            int v1;
-            int v2;
-            int v3;
-        };
-    };
-    // Future variables will be added later
-};
-
 // FrameAdjuster?
 class VertexAdjuster {
 private:
     // NOTE: I am not in love with this name or the way scaling works; feel free to rework this variable
      // Should this use min() instead?
+    int width, height;
     int scale;
     float pointAdjust;
     float pointMultiply;
 public:
     void setScale(int width, int height);
-    VertexAdjuster(int width, int height, float pointAdjust);
-    void adjust(Vertex &vertex);
+    VertexAdjuster(int width, int height);
+    Vec3i adjust(Vertex &v);
 };
 
 using Token = std::string;
@@ -91,6 +58,5 @@ public:
     void printFace(int index);
 
     Model(std::string filename);
-    void drawWireframe(int width, int height, TGAImage &framebuffer);
-    void drawTriangles(int width, int height, TGAImage &framebuffer);
+    void draw(int width, int height, TGAImage &framebuffer, TGAImage &zbuffer);
 };

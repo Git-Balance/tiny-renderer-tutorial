@@ -331,3 +331,14 @@ I should probably move on in the tutorial
 The bug that caused the image to be rotated incorrectly on certain devices was caused by my image viewing software. Before, I used the command `display framebuffer.tga` using [ImageMagick](https://imagemagick.org/#gsc.tab=0) software, but I should use `display -auto-orient framebuffer.tga`
 
 Anyways, I added a `VertexAdjuster` object
+
+### 03/26/26
+
+Starting [Lesson 4](https://haqr.eu/tinyrenderer/z-buffer/)
+
+Trying to add zbuffer support while following along the tutorial, I broke something and now there are funny images
+
+![color](./lesson4_blockscolors.png)
+
+![zbuf](./lesson4_blockbuffer.png)
+
